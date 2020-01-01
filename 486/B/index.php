@@ -14,49 +14,77 @@ $input = STDIN;
 //$output = TXTOUT;
 $output = STDOUT;
 
-function fillAi($n, $bi)
+function fillA($n, $bi)
 {
     $sum = array_sum($bi);
 
     return $sum < $n ? array_fill(0, $n, 0) : $bi;
 }
 
-function fillFinal($n, $bi, $min)
+function fillB($n, $a)
 {
-    return $min === 0 ? array_fill(0, $n, 0) : $bi;
+    $sum = array_sum($a);
+
+    return $sum > 0 ? array_fill(0, $n, 1) : $a;
+}
+
+function fillFinalA($n, $b, $min)
+{
+    return $min === 0 ? array_fill(0, $n, 0) : $b;
+}
+
+function fillFinalB($n, $a, $max)
+{
+    return $max > 0 ? array_fill(0, $n, 1) : $a;
 }
 
 $r = 0;
-$sum = 0;
-$a = $b = $c = $min = [];
+$sumA = $sumB = 0;
+$a = $b = $c = $d = $min = $dd = $bb = $max = [];
 
 list($m, $n) = fscanf($input, "%d %d\n");
 
 for ($i = 0; $i < $m; $i++) {
     $b[$i] = fscanf($input, trim(str_repeat("%d ", $n)));
-    $a[$i] = fillAi($n, $b[$i]);
+    $a[$i] = fillA($n, $b[$i]);
     $min[$i] = min($b[$i]);
+    $sumB += array_sum($b[$i]);
 }
 
 for ($j = 0; $j < $n; $j++) {
-    $c[$j] = fillAi($m, array_column($b, $j));
+    $c[$j] = fillA($m, array_column($b, $j));
 }
 
 for ($i = 0; $i < $m; $i++) {
-    $a[$i] = fillFinal($n, array_column($c, $i), $min[$i]);
-    $sum += array_sum($a[$i]);
+    $a[$i] = fillFinalA($n, array_column($c, $i), $min[$i]);
+    $sumA += array_sum($a[$i]);
 }
 
-//dd($b, $a, $c);
+$c = [];
 
-if ($sum === 0) {
-    if ($n === 1 && $m === 1) {
-        goto yes;
+for ($i = 0; $i < $m; $i++) {
+    $d[$i] = fillB($n, $a[$i]);
+    $max[$i] = max($a[$i]);
+}
+
+for ($j = 0; $j < $n; $j++) {
+    $c[$j] = fillB($m, array_column($a, $j));
+}
+
+for ($i = 0; $i < $m; $i++) {
+    $d[$i] = fillFinalB($n, array_column($c, $i), $max[$i]);
+}
+
+for ($i = 0; $i < $m; $i++) {
+    for ($j = 0; $j < $n; $j++) {
+        $dd[] = $d[$i][$j];
+        $bb[] = $b[$i][$j];
     }
+}
 
+if (implode(' ', $dd) !== implode(' ', $bb)) {
     fwrite($output, 'NO');
 } else {
-    yes:
     fwrite($output, 'YES' . PHP_EOL);
 
     for ($i = 0; $i < $m; $i++) {
