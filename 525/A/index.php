@@ -15,29 +15,28 @@ $input = STDIN;
 $output = STDOUT;
 
 $r = 0;
-$doors = $keys = [];
+$keys = [];
 
 list($n) = fscanf($input, "%d\n");
 list($s) = fscanf($input, "%s");
 
 $c = 0;
 
-for ($i = 0; $i < strlen($s) - 1; $i += 2) {
-    $next = $s[$i + 1];
-    $big = strtoupper($s[$i]);
+for ($i = 0; $i < (2 * $n - 2); $i += 2) {
+    $key = strtoupper($s[$i]);
+    $door = $s[$i + 1];
 
-    if ($i % 2 === 0) {
-        if ($big !== $next) {
-            if (isset($keys[$next]) && $keys[$next] > 0) {
-                $keys[$next]--;
-            } else {
-                $doors[$next] = isset($doors[$next]) ? $doors[$next] + 1 : 1;
-                $keys[$big] = isset($keys[$big]) ? $keys[$big] + 1 : 1;
-            }
-        }
+    if (!isset($keys[$key])) {
+        $keys[$key] = 0;
+    }
+
+    $keys[$key]++;
+
+    if (!isset($keys[$door]) || !$keys[$door]) {
+        $r++;
+    } else {
+        $keys[$door]--;
     }
 }
-
-$r = array_sum($doors);
 
 fwrite($output, $r);
