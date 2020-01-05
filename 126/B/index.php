@@ -9,37 +9,61 @@ function dd(...$args)
 define('TXTIN', fopen('input.txt', 'r'));
 define('TXTOUT', fopen('output.txt', 'w'));
 
-$input = TXTIN;
-//$input = STDIN;
-$output = TXTOUT;
-//$output = STDOUT;
+//$input = TXTIN;
+$input = STDIN;
+//$output = TXTOUT;
+$output = STDOUT;
 
-function foo($s)
+function KMP($s, &$p)
 {
-    $result = null;
-    $n = strlen($s);
-    $sl = (int) ($n / 3) + 1;
+    $p[0] = 0;
 
-    for ($i = 1; $i <= $sl; $i++) {
-        $prefix = substr($s, 0, $i);
-        $suffix = substr($s, -$i);
-        $middle = substr($s, $i, $n - 2 * $i);
+    for ($i = 1; $i < strlen($s); $i++) {
+        $j = $p[$i - 1];
 
-        if ($prefix !== $suffix) continue;
+        while ($j && $s[$i] != $s[$j]) {
+            $j = $p[$j - 1];
+        }
 
-        if (substr_count($middle, $prefix) > 0) {
-            $result = $prefix;
+        if ($s[$i] === $s[$j]) {
+            $p[$i] = $j + 1;
+        } else {
+            $p[$i] = $j;
         }
     }
+}
 
-    return $result;
+
+function foo($s, &$p)
+{
+    $l = strlen($s);
+    $a = $p[$l - 1];
+
+    while ($a) {
+        for ($i = $l - 2; $i >= 0; --$i) {
+            if ($p[$i] === $a) {
+                break;
+            }
+        }
+
+        if ($i >= 0) {
+            break;
+        }
+
+        $a = $p[$a - 1];
+    }
+
+    return $a;
 }
 
 $r = 0;
-$keys = [];
+$p = [];
 
 list($s) = fscanf($input, "%s");
 
-$r = foo($s) ?: 'Just a legend';
+KMP($s, $p);
+
+$r = foo($s, $p);
+$r = $r ? substr($s, 0, $r) : 'Just a legend';
 
 fwrite($output, $r);
