@@ -16,22 +16,22 @@ $output = STDOUT;
 
 $skills = [];
 
-list($n, $m, $k) = fscanf($input, "%d %d %f\n");
+list($n, $m, $k) = fscanf($input, "%d %d %s\n");
 
 for ($i = 0; $i < $n; $i++) {
-    list($name, $exp) = fscanf($input, "%s %d\n");
+    list($name, $exp) = fscanf($input, "%s %s\n");
 
-    $expK = $exp * $k;
+    $expK = bcmul($exp, $k, 2);
 
-    if ($expK > 100) {
-        $skills[$name] = (int)$expK;
+    if (bccomp($expK, '100.00', 2) > -1) {
+        $skills[$name] = bcadd($expK, '0.00', 0);
     }
 }
 
 for ($i = 0; $i < $m; $i++) {
     $name = trim(fgets($input));
 
-    $skills[$name] = $skills[$name] ?? 0;
+    $skills[$name] = $skills[$name] ?? '0';
 }
 
 fwrite($output, count($skills) . PHP_EOL);

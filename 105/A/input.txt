@@ -8,3 +8,11 @@ heal
 megafire
 shield
 magicboost
+
+1 1 0.80
+xyz 125
+xyz
+
+1 1 0.94
+a 8700
+b
