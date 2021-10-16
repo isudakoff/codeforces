@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+
+  cf-go:
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    container_name: cf-go
+    entrypoint: ''
+    command: [ "tail", "-f", "/dev/null" ]
+    volumes:
+      - ./:/src:delegated
+
+  cf-php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: cf-php
+    entrypoint: ''
+    command: [ "tail", "-f", "/dev/null" ]
+    volumes:
+      - ./:/src:delegated
