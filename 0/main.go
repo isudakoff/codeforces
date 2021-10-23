@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
 
 var scanner *bufio.Scanner
@@ -32,6 +33,18 @@ func getString() string {
 	scanner.Scan()
 
 	return scanner.Text()
+}
+
+func getInt64() int64 {
+	scanner.Scan()
+
+	x, _ := strconv.ParseInt(scanner.Text(), 10, 64)
+
+	return x
+}
+
+func getInt() int {
+	return int(getInt64())
 }
 
 func setScanner() {
