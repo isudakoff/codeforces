@@ -1,6 +1,6 @@
 FROM php:7.2.13-cli
 
-ENV MYPATH /src
+ENV MYPATH /cf
 
 # Set working directory
 WORKDIR $MYPATH

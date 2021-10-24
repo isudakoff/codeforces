@@ -10,7 +10,7 @@ services:
     entrypoint: ''
     command: [ "tail", "-f", "/dev/null" ]
     volumes:
-      - ./:/src:delegated
+      - ./:/cf:delegated
 
   cf-php:
     build:
@@ -20,4 +20,4 @@ services:
     entrypoint: ''
     command: [ "tail", "-f", "/dev/null" ]
     volumes:
-      - ./:/src:delegated
+      - ./:/cf:delegated
