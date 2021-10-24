@@ -26,7 +26,11 @@ func main() {
 
 	defer writer.Flush()
 
-	// TODO: code
+	//scanner.Split(bufio.ScanWords)
+	//n := getInt()
+	//for i := 0; i < n; i++ {}
+
+	// TODO: code 4 CIS
 }
 
 func getString() string {
