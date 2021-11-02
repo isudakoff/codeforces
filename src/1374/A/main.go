@@ -35,14 +35,8 @@ func main() {
 		y := getInt()
 		n := getInt()
 
-		// todo
+		writeInt(((n-y)/x)*x + y)
 	}
-}
-
-func getString() string {
-	scanner.Scan()
-
-	return scanner.Text()
 }
 
 func getInt64() int64 {
@@ -85,18 +79,6 @@ func setWriter() {
 	}
 }
 
-func writeString(str string) {
-	_, _ = writer.WriteString(fmt.Sprintf("%s\n", str))
-}
-
 func writeInt(d int) {
 	_, _ = writer.WriteString(fmt.Sprintf("%d\n", d))
-}
-
-func writeInt64(d int64) {
-	_, _ = writer.WriteString(fmt.Sprintf("%d\n", d))
-}
-
-func writeFloat64(f float64) {
-	_, _ = writer.WriteString(fmt.Sprintf("%.2f\n", f))
 }
